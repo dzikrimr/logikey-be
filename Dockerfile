@@ -20,9 +20,6 @@ COPY requirements.txt .
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir -r requirements.txt
 
-# Copy folder model
-COPY ./logiclyst_llama3_final /code/logiclyst_llama3_final
-
 # Copy source code
 COPY ./app /code/app
 
