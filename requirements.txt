@@ -6,3 +6,5 @@ accelerate
 pydantic-settings
 bitsandbytes
 accelerate
+peft
+python-dotenv
