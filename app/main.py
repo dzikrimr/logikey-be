@@ -26,6 +26,7 @@ async def analyze_argument(
         
         # Parsing output mentah
         parsed_result = logic_parser.parse_response(raw_output)
+        print(f"--- RAW OUTPUT DARI AI ---\n{raw_output}\n--------------------------")
         
         # Return Response sesuai Schema
         return LogicResponse(

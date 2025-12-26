@@ -19,6 +19,7 @@ class AIService:
 
         print(f"⏳ Mendownload/Memuat Base Model: {base_model_id}...")
         self.tokenizer = AutoTokenizer.from_pretrained(base_model_id, token=hf_token)
+        self.tokenizer.padding_side = "left"
         if self.tokenizer.pad_token is None:
             self.tokenizer.pad_token = self.tokenizer.eos_token
 
@@ -34,11 +35,11 @@ class AIService:
         
     async def analyze_logic(self, text: str):
         instruction = (
-            "Berikan analisis mendalam tentang sesat logika (logical fallacy). "
-            "Format jawaban HARUS: "
-            "1. Nama fallacy di antara bintang dua (contoh: **Ad Hominem**). "
-            "2. Gunakan kata 'Penjelasan:' diikuti paragraf detail. "
-            "3. Gunakan kata 'Lawan:' diikuti minimal 3 poin sanggahan menggunakan NOMOR (1., 2., 3.)."
+            "Tugas: Analisis sesat logika secara detail. "
+            "Aturan Wajib: "
+            "1. Nama Fallacy: Tulis di antara bintang dua, contoh: **Ad Hominem**. "
+            "2. Penjelasan: Berikan penjelasan detail mengapa kalimat tersebut salah secara logika. Jelaskan mekanisme sesat logikanya dan dampaknya terhadap argumen. "
+            "3. Lawan: Berikan minimal 3 poin sanggahan menggunakan nomor (1., 2., 3.). Setiap poin harus berupa argumen tandingan yang kuat dan edukatif untuk mengembalikan diskusi ke jalur yang benar."
         )
         
         prompt = f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{instruction}\n\nKalimat: {text}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
@@ -49,7 +50,8 @@ class AIService:
             outputs = self.model.generate(
                 **inputs, 
                 max_new_tokens=512,
-                temperature=0.7,   
+                temperature=0.2,   
+                top_p=0.9,
                 do_sample=True,
                 pad_token_id=self.tokenizer.eos_token_id 
             )
