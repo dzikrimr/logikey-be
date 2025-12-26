@@ -34,9 +34,15 @@ class AIService:
         
     async def analyze_logic(self, text: str):
         instruction = (
-            "Analisis argumen ini secara mendalam. Identifikasi sesat logikanya, "
-            "berikan penjelasan komprehensif, dan berikan minimal 3 sanggahan logis. "
-            "Gunakan format:\n**[Nama Fallacy]**\nPenjelasan: [Penjelasan Detail]\nLawan:\n- [Sanggahan 1]\n- [Sanggahan 2]\n- [Sanggahan 3]"
+            "Identifikasi sesat logika pada kalimat berikut. "
+            "Berikan penjelasan (explanation) yang mendalam dan berikan minimal 3 sanggahan (logical counter-argument). "
+            "Gunakan format tepat seperti ini:\n"
+            "**[Nama Fallacy]**\n"
+            "Penjelasan: [Tulis penjelasan panjang di sini]\n"
+            "Lawan:\n"
+            "- [Sanggahan 1]\n"
+            "- [Sanggahan 2]\n"
+            "- [Sanggahan 3]"
         )
         
         prompt = f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{instruction}\n\nKalimat: {text}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
