@@ -11,10 +11,7 @@ class AIService:
         hf_token = os.getenv("HF_TOKEN")
 
         bnb_config = BitsAndBytesConfig(
-            load_in_4bit=True,
-            bnb_4bit_compute_dtype=torch.float16,
-            bnb_4bit_quant_type="nf4",
-            bnb_4bit_use_double_quant=True,
+            load_in_8bit=True,
         )
 
         print(f"⏳ Mendownload/Memuat Base Model: {base_model_id}...")
@@ -52,7 +49,6 @@ class AIService:
                 max_new_tokens=512,
                 temperature=0.1,   
                 top_p=0.9,
-                repetition_penalty=1.2,
                 do_sample=True,
                 pad_token_id=self.tokenizer.eos_token_id 
             )
