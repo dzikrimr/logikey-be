@@ -22,8 +22,7 @@ class LogicParser:
             items = re.findall(pattern, counter_section, re.DOTALL)
             counter_args = [item.strip() for item in items if len(item.strip()) > 2]
 
-        valid_keywords = ["tidak ada", "valid", "none", "logis", "tidak ditemukan"]
-        is_fallacy = not any(word in label.lower() for word in valid_keywords)
+        is_fallacy = label.strip().lower() != "none"
 
         return {
             "label": label,

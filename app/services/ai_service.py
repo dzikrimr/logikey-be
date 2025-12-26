@@ -42,7 +42,7 @@ class AIService:
             "Anda adalah ahli logika objektif. Tugas Anda adalah menguji apakah sebuah kalimat mengandung kesesatan logika (fallacy) atau merupakan argumen yang valid.\n"
             "ATURAN OUTPUT:\n"
             "1. Nama Fallacy: Jika ditemukan, tulis di antara bintang dua (contoh: **Nama Jenis Fallacy**). "
-            "JIKA ARGUMEN VALID/LOGIS, wajib tulis **Tidak Ada Fallacy**.\n"
+            "JIKA ARGUMEN VALID, WAJIB tulis **None**.\n"
             "2. Penjelasan: Berikan analisis teknis. Jika valid, jelaskan mengapa penalaran tersebut benar secara logika.\n"
             "3. Lawan: Berikan 3 sanggahan logis jika ada fallacy. "
             "JIKA ARGUMEN VALID, berikan 3 poin yang mendukung atau memperkuat argumen tersebut.\n"
