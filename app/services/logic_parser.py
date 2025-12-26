@@ -16,7 +16,8 @@ class LogicParser:
         counter_args = []
         if "Lawan:" in raw_text:
             counter_section = raw_text.split("Lawan:")[1].strip()
-            counter_args = re.findall(r"(?:-|\d\.)\s*(.*)", counter_section)
+            items = re.findall(r"(?:^|\n)(?:-|\d\.)\s*(.+)", counter_section)
+            counter_args = [item.strip() for item in items if item.strip()]
 
         return {
             "label": label,

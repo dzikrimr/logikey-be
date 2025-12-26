@@ -32,24 +32,34 @@ class AIService:
         print(f"⏳ Menempelkan Adapter Logiclyst dari HF: {self.adapter_id}...")
         self.model = PeftModel.from_pretrained(base_model, self.adapter_id, token=hf_token)
         
-    async def analyze_logic(self, text: str):
-        # Prompt diperkuat agar output konsisten
-        instruction = "Identifikasi sesat logika. Berikan jawaban dengan format: **[Nama Sesat Logika]** Penjelasan: [Alasan] Lawan: [Sanggahan]"
-        prompt = f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{instruction}\n\nKalimat: {text}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+async def analyze_logic(self, text: str):
+    instruction = (
+        "Identifikasi sesat logika pada kalimat berikut. "
+        "Berikan penjelasan (explanation) yang mendalam dan berikan minimal 3 sanggahan (logical counter-argument). "
+        "Gunakan format tepat seperti ini:\n"
+        "**[Nama Fallacy]**\n"
+        "Penjelasan: [Tulis penjelasan panjang di sini]\n"
+        "Lawan:\n"
+        "- [Sanggahan 1]\n"
+        "- [Sanggahan 2]\n"
+        "- [Sanggahan 3]"
+    )
+    
+    prompt = f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{instruction}\n\nKalimat: {text}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
+    
+    inputs = self.tokenizer(prompt, return_tensors="pt").to(self.model.device)
+    
+    with torch.no_grad():
+        outputs = self.model.generate(
+            **inputs, 
+            max_new_tokens=500, 
+            temperature=0.7,    
+            do_sample=True,
+            pad_token_id=self.tokenizer.eos_token_id 
+        )
         
-        inputs = self.tokenizer(prompt, return_tensors="pt").to(self.model.device)
-        
-        with torch.no_grad():
-            outputs = self.model.generate(
-                **inputs, 
-                max_new_tokens=150,
-                temperature=0.1, 
-                do_sample=True,
-                pad_token_id=self.tokenizer.eos_token_id 
-            )
-            
-        decoded = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
-        response = decoded.split("assistant")[-1].strip()
-        return response
+    decoded = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
+    response = decoded.split("assistant")[-1].strip()
+    return response
 
 ai_logic_service = AIService()
