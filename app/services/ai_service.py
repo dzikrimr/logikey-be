@@ -39,17 +39,11 @@ class AIService:
         # Rumus konversi sensitivity ke temperature
         computed_temp = max(0.1, 1.1 - sensitivity)
         instruction = (
-            "Anda adalah ahli logika objektif. Tugas Anda adalah menguji apakah sebuah kalimat mengandung kesesatan logika (fallacy) atau merupakan argumen yang valid.\n"
-            "ATURAN OUTPUT:\n"
-            "1. Nama Fallacy: Jika ditemukan, tulis di antara bintang dua (contoh: **Nama Jenis Fallacy**). "
-            "JIKA ARGUMEN VALID, WAJIB tulis **None**.\n"
-            "2. Penjelasan: Berikan analisis teknis. Jika valid, jelaskan mengapa penalaran tersebut benar secara logika.\n"
-            "3. Lawan: Berikan 3 sanggahan logis jika ada fallacy. "
-            "JIKA ARGUMEN VALID, berikan 3 poin yang mendukung atau memperkuat argumen tersebut.\n"
-            "WAJIB diawali dengan kata 'Lawan:' dan gunakan nomor (1., 2., 3.).\n"
-            "PENTING: Jangan memaksakan adanya fallacy jika argumen memang logis dan didukung bukti/premis yang kuat."
+            "Anda adalah sistem deteksi logika. Gunakan format berikut:\n"
+            "**Nama Fallacy** atau **None**\n"
+            "Penjelasan: [Analisis Anda]\n"
+            "Lawan: 1. [Poin] 2. [Poin] 3. [Poin]"
         )
-        
         prompt = f"<|begin_of_text|><|start_header_id|>user<|end_header_id|>\n\n{instruction}\n\nKalimat: {text}<|eot_id|><|start_header_id|>assistant<|end_header_id|>\n\n"
         
         inputs = self.tokenizer(prompt, return_tensors="pt").to(self.model.device)
