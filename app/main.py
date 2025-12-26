@@ -33,6 +33,7 @@ async def analyze_argument(
             label=parsed_result["label"],
             explanation=parsed_result["explanation"],
             is_fallacy=parsed_result["is_fallacy"],
+            counter_arguments=parsed_result["counter_arguments"],
             status="success"
         )
         

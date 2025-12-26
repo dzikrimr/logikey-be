@@ -5,8 +5,9 @@ class LogicRequest(BaseModel):
     text: str
 
 class LogicResponse(BaseModel):
-    fallacy: Optional[str] = None
-    suggestion: Optional[str] = None
+    input: str
+    label: str
     explanation: Optional[str] = None
+    is_fallacy: bool
     counter_arguments: List[str] = []
     status: str
